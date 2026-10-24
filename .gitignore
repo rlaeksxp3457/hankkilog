@@ -1,0 +1,5 @@
+# 개발 도구 설정 (과제 코드와 무관)
+.idea/
+.vscode/
+.omc/
+.DS_Store

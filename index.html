@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>한끼로그 | 자취생 일주일 식단·장보기 플래너</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!--
+    [서비스 기획]
+    - 사용자: 혼자 사는 대학생(자취생), 한 달 식비가 빠듯하고 매 끼니 메뉴 고민에 시간을 쓰는 사람
+    - 목적: 정해진 식비 안에서 일주일 식단을 미리 정해 외식·배달비를 줄이고 장보기를 한 번에 끝내기
+    - 핵심 행동: 목표 선택 → 예산·끼니 수 입력 → 메뉴 고르기 → 계획 확인 → 계획 완성
+    - 완료 조건: 예산 안에서 1개 이상, 끼니 수 이하의 메뉴를 골라 계획을 확정한 상태
+    - 정보 순서: 서비스 이름·한 줄 소개 → 서비스 소개 → 주요 기능 → 이용 방법 → 자취 꿀팁 → 식단 만들기 → 알림 신청
+    - 중간고사 추가 기능: 3단계(메뉴 선택) 중간에 "냉장고 재료로 메뉴 찾기" 경로를 연결하고,
+      찾은 메뉴를 계획에 담으면 부족한 재료가 4단계 확인·5단계 완료 화면의 장보기 목록에 반영된다.
+  -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#top">🍚 한끼로그</a>
+      <nav class="site-nav" aria-label="페이지 내부 이동">
+        <a href="#about">소개</a>
+        <a href="#features">주요 기능</a>
+        <a href="#how">이용 방법</a>
+        <a href="#tips">자취 꿀팁</a>
+        <a href="#planner">식단 만들기</a>
+        <a href="#subscribe">알림 신청</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- 서비스 이름과 한 줄 소개 -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <p class="eyebrow">자취 대학생을 위한 식단·장보기 플래너</p>
+          <h1>한끼로그</h1>
+          <p class="tagline">식비는 아끼고, 메뉴 고민은 줄이고. 일주일 식단을 5분 만에 정해요.</p>
+          <a class="btn btn-primary" href="#planner">식단 계획 시작하기</a>
+        </div>
+        <img class="hero-image" src="images/hero.svg" alt="밥그릇과 장바구니, 일주일 달력이 함께 그려진 한끼로그 대표 일러스트">
+      </div>
+    </section>
+
+    <!-- 서비스 소개 -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2>서비스 소개</h2>
+        <p>
+          자취를 하면 매 끼니 "오늘 뭐 먹지?"를 고민하다 결국 배달 음식을 시키게 됩니다.
+          한끼로그는 일주일 식비와 먹을 끼니 수를 먼저 정하고, 그 안에서 만들 수 있는 메뉴를 골라
+          <strong>예산 안에서 끝나는 식단 계획</strong>을 세우도록 돕습니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- 주요 기능 3개 -->
+    <section id="features" class="section section-alt">
+      <div class="container">
+        <h2>주요 기능</h2>
+        <ul class="feature-list">
+          <li class="feature-card">
+            <span class="feature-icon" aria-hidden="true">🎯</span>
+            <h3>목표별 메뉴 추천</h3>
+            <p>절약·간편·든든 중 목표를 고르면 그에 맞는 메뉴를 먼저 보여 줍니다.</p>
+          </li>
+          <li class="feature-card">
+            <span class="feature-icon" aria-hidden="true">💰</span>
+            <h3>예산 맞춤 계획</h3>
+            <p>고른 메뉴의 예상 비용을 바로 계산해 주간 예산을 넘지 않게 안내합니다.</p>
+          </li>
+          <li class="feature-card">
+            <span class="feature-icon" aria-hidden="true">🧾</span>
+            <h3>한눈에 보는 계획표</h3>
+            <p>확정 전 계획을 한 화면에서 확인하고, 필요한 단계만 골라 수정할 수 있습니다.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 이용 방법 3단계 -->
+    <section id="how" class="section">
+      <div class="container">
+        <h2>이용 방법</h2>
+        <ol class="how-list">
+          <li><strong>목표 정하기</strong> 이번 주 식단의 목표를 고릅니다.</li>
+          <li><strong>예산·끼니 입력</strong> 주간 식비와 직접 해 먹을 끼니 수를 입력합니다.</li>
+          <li><strong>메뉴 고르고 확정</strong> 예산 안에서 메뉴를 골라 계획을 확정합니다.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 6주차: 이벤트와 탭 UI -->
+    <section id="tips" class="section section-alt">
+      <div class="container tips-layout">
+        <div class="calc-card">
+          <h2>한 끼 예산 계산기</h2>
+          <p class="help-text">주간 식비와 끼니 수를 넣으면 한 끼에 쓸 수 있는 금액을 바로 보여 줘요.</p>
+          <label for="calcBudget">주간 식비 (원)</label>
+          <input id="calcBudget" type="number" inputmode="numeric" min="0" step="1000" placeholder="예: 35000">
+          <label for="calcMeals">일주일에 직접 해 먹을 끼니</label>
+          <select id="calcMeals">
+            <option value="3">3끼</option>
+            <option value="5" selected>5끼</option>
+            <option value="7">7끼</option>
+          </select>
+          <p id="calcResult" class="calc-result" aria-live="polite">주간 식비를 입력해 주세요.</p>
+          <button id="calcStartBtn" class="btn btn-primary" type="button" disabled>이 예산으로 식단 만들기</button>
+        </div>
+
+        <div class="tips-card">
+          <h2>자취 꿀팁</h2>
+          <div class="tab-list" role="tablist" aria-label="자취 꿀팁 분류">
+            <button class="tab-btn is-active" type="button" role="tab" aria-selected="true" data-tab="shopping">장보기</button>
+            <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab="storage">보관법</button>
+            <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab="cooking">간단 조리</button>
+          </div>
+          <div class="tab-panel" id="tab-shopping" role="tabpanel">
+            <ul>
+              <li>장보기 전에 냉장고 사진을 찍어 두면 중복 구매를 막을 수 있어요.</li>
+              <li>대파·양파처럼 여러 메뉴에 쓰는 재료는 묶음으로 사는 게 이득이에요.</li>
+            </ul>
+          </div>
+          <div class="tab-panel" id="tab-storage" role="tabpanel" hidden>
+            <ul>
+              <li>대파는 썰어서 지퍼백에 담아 냉동하면 한 달까지 써요.</li>
+              <li>밥은 한 공기씩 랩에 싸서 냉동한 뒤 전자레인지에 데워요.</li>
+            </ul>
+          </div>
+          <div class="tab-panel" id="tab-cooking" role="tabpanel" hidden>
+            <ul>
+              <li>계란·두부·참치캔은 10분 요리의 기본 재료예요.</li>
+              <li>프라이팬 하나로 볶음밥, 덮밥, 부침을 모두 만들 수 있어요.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7주차: 사용자 흐름 (시작 → 입력·선택 → 확인 → 완료) -->
+    <section id="planner" class="section">
+      <div class="container">
+        <h2>일주일 식단 만들기</h2>
+        <ol class="stepper" aria-label="진행 단계">
+          <li class="step-dot is-current" data-step-dot="1">목표</li>
+          <li class="step-dot" data-step-dot="2">예산·끼니</li>
+          <li class="step-dot" data-step-dot="3">메뉴</li>
+          <li class="step-dot" data-step-dot="4">확인</li>
+          <li class="step-dot" data-step-dot="5">완료</li>
+        </ol>
+
+        <div class="planner-card">
+          <!-- 1단계: 목표 선택 -->
+          <div class="step" data-step="1">
+            <h3>1. 이번 주 식단의 목표를 골라 주세요</h3>
+            <fieldset class="choice-group">
+              <legend class="sr-only">식단 목표</legend>
+              <label class="choice"><input type="radio" name="goal" value="save"><span><strong>절약형</strong> 한 끼 2,500원 이하 위주</span></label>
+              <label class="choice"><input type="radio" name="goal" value="quick"><span><strong>간편형</strong> 15분 안에 끝나는 메뉴 위주</span></label>
+              <label class="choice"><input type="radio" name="goal" value="hearty"><span><strong>든든형</strong> 고기·두부로 단백질 챙기기</span></label>
+            </fieldset>
+            <p class="msg" data-msg="1" aria-live="polite"></p>
+            <div class="step-actions">
+              <button class="btn btn-primary" type="button" data-next="1">다음: 예산 입력</button>
+            </div>
+          </div>
+
+          <!-- 2단계: 예산·끼니 입력 -->
+          <div class="step" data-step="2" hidden>
+            <h3>2. 이름과 예산, 끼니 수를 입력해 주세요</h3>
+            <div class="field">
+              <label for="nickname">닉네임 (2~10자)</label>
+              <input id="nickname" type="text" maxlength="10" placeholder="예: 자취3년차">
+            </div>
+            <div class="field">
+              <label for="weekBudget">주간 식비 (10,000원 ~ 200,000원)</label>
+              <input id="weekBudget" type="number" inputmode="numeric" min="10000" max="200000" step="1000" placeholder="예: 35000">
+            </div>
+            <div class="field">
+              <label for="mealCount">직접 해 먹을 끼니 수</label>
+              <select id="mealCount">
+                <option value="">끼니 수를 선택하세요</option>
+                <option value="3">3끼</option>
+                <option value="5">5끼</option>
+                <option value="7">7끼</option>
+              </select>
+            </div>
+            <p class="msg" data-msg="2" aria-live="polite"></p>
+            <div class="step-actions">
+              <button class="btn btn-ghost" type="button" data-prev="2">이전</button>
+              <button class="btn btn-primary" type="button" data-next="2">다음: 메뉴 고르기</button>
+            </div>
+          </div>
+
+          <!-- 3단계: 메뉴 선택 -->
+          <div class="step" data-step="3" hidden>
+            <h3>3. 이번 주에 만들 메뉴를 골라 주세요</h3>
+            <p class="help-text" id="menuGuide">목표에 맞는 메뉴가 위에 표시돼요.</p>
+
+            <!-- 중간고사: 냉장고 재료로 메뉴 찾기 -->
+            <div class="fridge-entry" id="fridgeEntry">
+              <p>냉장고에 있는 재료부터 쓰고 싶다면, 재료로 만들 수 있는 메뉴를 먼저 찾아보세요.</p>
+              <button id="fridgeOpenBtn" class="btn btn-ghost" type="button" aria-expanded="false" aria-controls="fridgePanel">🧊 냉장고 재료로 메뉴 찾기</button>
+            </div>
+            <div id="fridgePanel" class="fridge-panel" hidden>
+              <h4>냉장고 재료로 메뉴 찾기</h4>
+              <p class="help-text">가진 재료를 하나씩 추가한 뒤 <strong>메뉴 찾기</strong>를 누르세요. 재료는 최대 8개까지 넣을 수 있어요.</p>
+              <label for="fridgeInput">가진 재료 (한글·영문 1~10자)</label>
+              <div class="fridge-input-row">
+                <input id="fridgeInput" type="text" maxlength="10" placeholder="예: 계란" autocomplete="off">
+                <button id="fridgeAddBtn" class="btn btn-ghost" type="button">재료 추가</button>
+              </div>
+              <div class="quick-chips">
+                <span class="quick-label">자주 쓰는 재료</span>
+                <button class="quick-chip" type="button" data-ingredient="계란">+ 계란</button>
+                <button class="quick-chip" type="button" data-ingredient="대파">+ 대파</button>
+                <button class="quick-chip" type="button" data-ingredient="양파">+ 양파</button>
+                <button class="quick-chip" type="button" data-ingredient="두부">+ 두부</button>
+                <button class="quick-chip" type="button" data-ingredient="김치">+ 김치</button>
+                <button class="quick-chip" type="button" data-ingredient="밥">+ 밥</button>
+              </div>
+              <ul id="fridgeChips" class="chip-list" aria-label="추가한 재료"></ul>
+              <p id="fridgeMsg" class="msg" aria-live="polite"></p>
+              <div class="fridge-actions">
+                <button id="fridgeCancelBtn" class="btn btn-ghost" type="button">찾기 취소</button>
+                <button id="fridgeClearBtn" class="btn btn-ghost" type="button">재료 모두 지우기</button>
+                <button id="fridgeSearchBtn" class="btn btn-primary" type="button">메뉴 찾기</button>
+              </div>
+              <ul id="fridgeResults" class="result-list" aria-live="polite"></ul>
+            </div>
+
+            <h4 class="list-title">전체 메뉴</h4>
+            <ul class="menu-list" id="menuList"></ul>
+            <p class="budget-bar" id="budgetBar" aria-live="polite"></p>
+            <p class="msg" data-msg="3" aria-live="polite"></p>
+            <div class="step-actions">
+              <button class="btn btn-ghost" type="button" data-prev="3">이전</button>
+              <button class="btn btn-primary" type="button" data-next="3">다음: 계획 확인</button>
+            </div>
+          </div>
+
+          <!-- 4단계: 확인 -->
+          <div class="step" data-step="4" hidden>
+            <h3>4. 계획을 확인해 주세요</h3>
+            <dl class="summary" id="summary"></dl>
+            <div class="step-actions">
+              <button class="btn btn-ghost" type="button" data-prev="4">이전</button>
+              <button class="btn btn-primary" type="button" data-next="4">이대로 계획 확정</button>
+            </div>
+          </div>
+
+          <!-- 5단계: 완료 -->
+          <div class="step" data-step="5" hidden>
+            <div class="done-box">
+              <p class="done-icon" aria-hidden="true">✅</p>
+              <h3 id="doneTitle">계획이 완성되었어요</h3>
+              <p id="doneText"></p>
+            </div>
+            <div class="shopping-box">
+              <h4>🛒 이번 주 장보기 목록</h4>
+              <p id="doneShoppingNote" class="help-text"></p>
+              <ul id="doneShopping" class="shopping-list"></ul>
+            </div>
+            <div class="step-actions">
+              <button class="btn btn-primary" type="button" id="restartBtn">처음부터 다시 만들기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5주차: 최소 입력 영역 (알림 신청) -->
+    <section id="subscribe" class="section section-alt">
+      <div class="container">
+        <h2>새 메뉴 알림 받기</h2>
+        <p>매주 월요일, 5천 원 이하로 만드는 새 자취 메뉴를 이메일로 보내 드려요.</p>
+        <form id="subscribeForm" class="subscribe-form" novalidate>
+          <label for="email" class="sr-only">이메일 주소</label>
+          <input id="email" type="email" placeholder="example@email.com" autocomplete="email">
+          <button id="subscribeBtn" class="btn btn-primary" type="submit">알림 신청</button>
+        </form>
+        <p id="subscribeMsg" class="msg" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 한끼로그 · UI/UX프로그래밍 과제용 프로토타입</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -169,6 +169,10 @@ function showStep(step) {
   });
   if (step === 3) {
     renderMenus();
+    // 중간고사: 이전 단계에서 끼니 수·예산을 바꾸고 돌아오면 찾기 결과도 새 값으로 다시 계산
+    if (hasSearched) {
+      renderFridgeResults();
+    }
   }
   if (step === 4) {
     renderSummary();
@@ -335,12 +339,18 @@ function renderSummary() {
     "<dt>주간 식비 · 끼니</dt><dd>" + formatWon(plan.budget) + " · " + plan.meals + '끼</dd><dd><button class="btn btn-ghost btn-small" type="button" data-edit="2">수정</button></dd>' +
     "<dt>메뉴 (" + plan.menus.length + "개)</dt><dd>" + menuNames + '</dd><dd><button class="btn btn-ghost btn-small" type="button" data-edit="3">수정</button></dd>' +
     "<dt>예상 비용</dt><dd>" + formatWon(total) + " (남는 예산 " + formatWon(plan.budget - total) + ")</dd><dd></dd>" +
-    "<dt>장보기 목록</dt><dd>" + getShoppingText() + '</dd><dd><button class="btn btn-ghost btn-small" type="button" data-edit="3">재료 수정</button></dd>';
+    "<dt>장보기 목록</dt><dd>" + getShoppingText() + '</dd><dd><button class="btn btn-ghost btn-small" type="button" data-edit="fridge">재료 수정</button></dd>';
 }
 
 // 수정 버튼: 해당 단계로 이동 (입력값은 그대로 유지)
 summary.addEventListener("click", function (event) {
   const editStep = event.target.dataset.edit;
+  if (editStep === "fridge") {
+    // 장보기 목록의 "재료 수정": 3단계로 가서 냉장고 재료 찾기 패널을 바로 연다
+    showStep(3);
+    openFridgePanel();
+    return;
+  }
   if (editStep) {
     showStep(Number(editStep));
   }
@@ -452,6 +462,17 @@ function renderFridgeChips() {
     fridgeChips.appendChild(chip);
   });
   fridgeSearchBtn.textContent = plan.fridge.length > 0 ? "메뉴 찾기 (재료 " + plan.fridge.length + "개)" : "메뉴 찾기";
+  // 이미 넣은 자주 쓰는 재료 버튼은 비활성화
+  document.querySelectorAll(".quick-chip").forEach(function (button) {
+    button.disabled = hasIngredient(button.dataset.ingredient);
+  });
+}
+
+// 영문은 대소문자를 구분하지 않고 같은 재료인지 확인 (Egg = egg)
+function hasIngredient(name) {
+  return plan.fridge.some(function (item) {
+    return item.toLowerCase() === name.toLowerCase();
+  });
 }
 
 // 재료 추가: 빈 값·형식·중복·개수 조건을 확인하고 고치는 방법을 안내
@@ -471,7 +492,7 @@ function addIngredient(rawName) {
     fridgeInput.focus();
     return;
   }
-  if (plan.fridge.includes(name)) {
+  if (hasIngredient(name)) {
     setMessage(fridgeMsg, "'" + name + "'은(는) 이미 추가한 재료예요. 다른 재료를 입력해 주세요.", "error");
     fridgeInput.select();
     return;
@@ -527,7 +548,7 @@ function renderFridgeResults() {
       "<p>위의 자주 쓰는 재료를 더 추가하거나, 찾기를 닫고 전체 메뉴에서 직접 골라 주세요.</p>" +
       '<button class="btn btn-ghost btn-small" type="button" data-action="browse-all">전체 메뉴에서 고르기</button>';
     fridgeResults.appendChild(empty);
-    setMessage(fridgeMsg, "검색 결과가 없어요. 재료 이름이 정확한지 확인해 보세요. (예: 고기 → 돼지고기)", "error");
+    setMessage(fridgeMsg, "검색 결과가 없어요. 재료 이름이 정확한지 확인해 보세요. (예: 고기 → 돼지고기)", "info");
     return;
   }
 
@@ -579,6 +600,8 @@ function addMenuFromFridge(id) {
   } else {
     setMessage(fridgeMsg, menu.name + "을(를) 계획에 담았어요. 부족한 재료는 확인 화면의 장보기 목록에 들어가요.", "success");
   }
+  // 목록을 다시 그려 누른 버튼이 사라졌으므로, 결과 안내 문구로 포커스를 옮겨 바로 읽히게 한다
+  fridgeMsg.focus();
 }
 
 // 장보기 목록: 선택한 메뉴에 필요한 재료 중 냉장고에 없는 재료
@@ -660,6 +683,7 @@ fridgeChips.addEventListener("click", function (event) {
     return item !== name;
   });
   renderFridgeChips();
+  fridgeInput.focus();
   if (plan.fridge.length === 0) {
     fridgeResults.innerHTML = "";
     hasSearched = false;
@@ -678,6 +702,8 @@ fridgeSearchBtn.addEventListener("click", function () {
     return;
   }
   renderFridgeResults();
+  // 모바일에서는 결과가 버튼 아래 화면 밖에 생기므로 결과 위치로 이동
+  fridgeResults.scrollIntoView({ behavior: "smooth", block: "nearest" });
 });
 
 fridgeResults.addEventListener("click", function (event) {
@@ -687,6 +713,10 @@ fridgeResults.addEventListener("click", function (event) {
   if (event.target.dataset.action === "browse-all") {
     closeFridgePanel();
     setMessage(stepMessage(3), "아래 전체 메뉴에서 직접 골라 주세요. 입력한 재료는 장보기 목록 계산에 그대로 쓰여요.", "info");
+    const firstMenu = menuList.querySelector("input");
+    if (firstMenu) {
+      firstMenu.focus();
+    }
   }
 });
 
